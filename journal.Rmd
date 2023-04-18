@@ -1,6 +1,6 @@
 ---
 title: "Journal (reproducible report)"
-author: "Joschka Schwarz"
+author: "Nana Sekyere Lewis"
 date: "2020-11-05"
 output:
   html_document:
@@ -21,6 +21,218 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 This is an `.Rmd` file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header.
 
 # My first post
+```{r}
+# Data Science at TUHH ------------------------------------------------------
+
+
+#Challenge 1 -Introduction to the Tidyverse ----
+
+
+# 1.0 Load libraries ----
+
+library(tidyverse)
+library(readxl)
+
+
+# 2.0 Importing Files ----
+
+# A good convention is to use the file name and suffix it with tbl for the data structure tibble
+bikes_tbl      <- read_excel(path = "~/R_scripts/DS_101/00_data/01_bike_sales/01_raw_data/bikes.xlsx")
+orderlines_tbl <- read_excel("~/R_scripts/DS_101/00_data/01_bike_sales/01_raw_data/orderlines.xlsx")
+
+# Not necessary for this analysis, but for the sake of completeness
+bikeshops_tbl  <- read_excel("~/R_scripts/DS_101/00_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
+
+
+# 3.0 Examining Data ----
+
+left_join(orderlines_tbl, bikes_tbl, by = c("product.id" = "bike.id"))
+
+# 4.0 Joining Data ----
+
+# Chaining commands with the pipe and assigning it to order_items_joined_tbl
+bike_orderlines_joined_tbl <- orderlines_tbl %>%
+  left_join(bikes_tbl, by = c("product.id" = "bike.id")) %>%
+  left_join(bikeshops_tbl, by = c("customer.id" = "bikeshop.id"))
+
+
+# 5.0 Wrangling Data ----
+
+bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
+  # 4.1 Separate category name
+  separate(col    = category,
+           into   = c("category.1", "category.2", "category.3"),
+           sep    = " - ") %>%
+  
+  # 4.2 Add the total price (price * quantity) 
+  # Add a column to a tibble that uses a formula-style calculation of other columns
+  mutate(total.price = price * quantity) %>%
+  
+  # 4.3 Optional: Reorganize. Using select to grab or remove unnecessary columns
+  # 4.3.1 by exact column name
+  select(-...1, -gender) %>%
+  
+  # 4.3.2 by a pattern
+  # You can use the select_helpers to define patterns. 
+  # Type ?ends_with and click on Select helpers in the documentation
+  select(-ends_with(".id")) %>%
+  
+  # 4.3.3 Actually we need the column "order.id". Let's bind it back to the data
+  bind_cols(bike_orderlines_joined_tbl %>% select(order.id)) %>% 
+  
+  # 4.3.4 You can reorder the data by selecting the columns in your desired order.
+  # You can use select_helpers like contains() or everything()
+  select(order.id, contains("order"), contains("model"), contains("category"),
+         price, quantity, total.price,
+         everything()) %>%
+  
+  # 4.4 Rename columns because we actually wanted underscores instead of the dots
+  # (one at the time vs. multiple at once)
+  rename(bikeshop = name) %>%
+  set_names(names(.) %>% str_replace_all("\\.", "_"))
+
+#Check location multiple features (State and city)
+#bike_orderlines_wrangled_tbl$location
+
+#Probably unecessary code but also helps to see just the location column
+bike_orderlines_wrangled_tbl %>% 
+  select(location) %>%
+  filter(str_detect(location, "^Hamburg"))
+
+#Challenge begins
+#4.5 Split location into state and city
+bike_orderlines_wrangled2_tbl <- bike_orderlines_wrangled_tbl %>%
+  separate(col    = location,
+           into   = c("city", "state"),
+           sep    = (",")) 
+
+
+# 6.0 Business Insights ----
+# 6.1 Sales by location (State) ----
+
+
+# Step 1 - Manipulate
+
+sales_by_state_tbl <- bike_orderlines_wrangled2_tbl %>%
+  # Select columns
+  select(state, total_price) %>%
+  
+  # Grouping by state and summarizing sales
+  group_by(state) %>% 
+  summarize(sales = sum(total_price)) %>%
+  
+  # Add a column that turns the numbers into a currency format 
+  # mutate(sales_text = scales::dollar(sales)) <- Works for dollar values
+  mutate(sales_text = scales::dollar(sales, big.mark = ".", 
+                                     decimal.mark = ",", 
+                                     prefix = "", 
+                                     suffix = " €"))
+
+sales_by_state_tbl
+
+# Step 2 - Visualize
+
+#Plot bar chart(This is for Rmarkdown. Not sure how to use that just about yet)
+#```{r plot, fig.width=10, fig.height=7}
+
+#step 2: Visualize
+#plot a bar chart
+sales_by_state_tbl %>%
+  
+  # Setup canvas with the columns year (x-axis) and sales (y-axis)
+  ggplot(aes(x = state, y = sales)) +
+  
+  # Geometries
+  geom_col(fill = "#2DC6D6") + # Use geom_col for a bar plot
+  #geom_label(aes(label = sales_text)) + # Adding labels to the bars
+  #geom_smooth(method = "lm", se = FALSE) + # Adding a trendline
+  
+  # Formatting
+  # scale_y_continuous(labels = scales::dollar) + # Change the y-axis. 
+  # Again, we have to adjust it for euro values
+  scale_y_continuous(labels = scales::dollar_format(big.mark = ".", 
+                                                    decimal.mark = ",", 
+                                                    prefix = "", 
+                                                    suffix = " €")) +
+  labs(
+    title    = "Revenue by state",
+    #subtitle = "Upward Trend",
+    x = "state", # Override defaults for x and y
+    y = "Revenue")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))#rotate x-axis 
+
+
+# 6.2 Sales by Location (State) and Category 2 ----
+library(lubridate)
+
+# Step 1 - Manipulate
+
+sales_by_year_by_state_tbl <- bike_orderlines_wrangled2_tbl %>%
+  
+  # Select columns and add a year
+  select(order_date, total_price, state) %>%
+  mutate(year = year(order_date)) %>%
+  
+  # Group by and summarize year and state
+  group_by(year, state) %>%
+  summarise(sales = sum(total_price)) %>%
+  ungroup() %>%
+  
+  # Format $ Text
+  mutate(sales_text = scales::dollar(sales, big.mark = ".", 
+                                     decimal.mark = ",", 
+                                     prefix = "", 
+                                     suffix = " €")) %>%
+  arrange(desc(sales))
+
+sales_by_year_by_state_tbl
+
+
+# Step 2 - Visualize
+
+#Plot bar chart(facet_wrap)
+sales_by_year_by_state_tbl %>%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = year, y = sales, fill = state)) +
+  
+  # Geometries
+  geom_col() + # Run up to here to get a stacked bar plot
+  
+  # Facet
+  facet_wrap(~ state) +
+  
+  # Formatting
+  scale_y_continuous(labels = scales::dollar_format(big.mark = ".", 
+                                                    decimal.mark = ",", 
+                                                    prefix = "", 
+                                                    suffix = " €")) +
+  labs(
+    title = "Revenue by year and state",
+    fill = "State" # Changes the legend name
+  )+ 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+# 7.0 Writing Files ----
+
+#6.1 Excel ----
+library("writexl")
+bike_orderlines_wrangled2_tbl %>%
+  write_xlsx("~/R_scripts/DS_101/00_data/01_bike_sales/02_wrangled_data/bike_orderlines2.xlsx")
+
+# 6.2 CSV ----
+bike_orderlines_wrangled2_tbl %>% 
+  write_csv("~/R_scripts/DS_101/00_data/01_bike_sales/02_wrangled_data/bike_orderlines2.csv")
+
+# 6.3 RDS ----
+bike_orderlines_wrangled2_tbl %>% 
+  write_rds("~/R_scripts/DS_101/00_data/01_bike_sales/02_wrangled_data/bike_orderlines2.rds")
+```
+
+
+
+
 
 Last compiled: `r Sys.Date()`
 
@@ -35,6 +247,440 @@ You can add more headers by adding more hashtags. These won't be put into the ta
 Here's an even lower level header
 
 # My second post (note the order)
+
+```{r}
+
+
+#Challenge 2.0 : Data Acquisition ----
+#Load Relevant Packages
+
+
+library(glue)
+library(httr)
+library(purrr)
+library(tidyverse) 
+library(rvest)     
+library(xopen)     
+library(jsonlite)  
+library(stringi)  
+library(jsonlite)
+
+
+
+#2.1: Data from an API ----
+#A COVID API.
+
+coro_url <- "https://api.covid19api.com/"
+
+
+xopen(coro_url) # Open links directly from RStudio to inspect them
+
+
+#lets try to get something
+coro_data <- GET(coro_url)
+coro_data
+
+
+coro_data_list <- coro_data %>%
+  .$content %>%
+  rawToChar() %>%
+  fromJSON()
+coro_data_list
+
+
+
+#2.2: Web Scraping ----
+
+#Task: Scrape one of the competitor websites of canyon
+#(either https://www.rosebikes.de/ or https://www.radon-bikes.de) 
+#create a small database.
+#database should contain the "model names" and "prices" for 
+#"at least one category". 
+#Print the first 10 rows of your tibbles. 
+
+
+#2.2.1 Bicycle Categories ----
+
+#assign the  URL to a variable
+rosebikes_category_url <- "https://www.rosebikes.de/fahrr%C3%A4der"
+xopen(rosebikes_category_url)
+
+
+
+#read in the html from the URL
+rosebikes_category_html <- rosebikes_category_url %>%
+  read_html() 
+
+# Select the correct html nodes and extract the category
+rosebikes_categories_tbl <-rosebikes_category_html %>%
+  html_nodes(css =".catalog-navigation__list-item > a ") %>%
+  html_attr("title") %>%
+  
+  #turn the vector into a table
+  enframe(name = "position", value = "category")
+rosebikes_categories_tbl
+
+
+
+#2.2.2 Model and Price ----
+
+#now to get the models under "kinder"
+rosebikes_kinder_url <- "https://www.rosebikes.de/fahrr%C3%A4der/kinder"
+#xopen(rosebikes_kinder_url)
+
+### read in the html from the URL
+rosebikes_kinder_html <- rosebikes_kinder_url %>%
+  read_html()
+
+#get data from JSON format about the model name and price
+rosebikes_kinder_json_tbl <- rosebikes_kinder_html %>%
+  html_nodes(css = ".catalog-product-tile__link") %>%
+  html_attr("onclick")
+
+#remove "window.dataLayer.push(" and ")"
+rosebikes_kinder_tbl <- rosebikes_kinder_json_tbl %>%
+  str_remove_all("window.dataLayer.push\\(") %>%
+  str_remove("\\)$") %>%
+  
+  # Convert the JSON format to dataframe
+  # map runs that function on each element of the list
+  
+  map(fromJSON) %>% # need JSON ### need lists
+  
+  # Extract relevant information of the nested list
+  map(purrr::pluck, "ecommerce","click","products") %>% # Need purrr and expl above
+  
+  # Stack all lists together
+  bind_rows() %>%
+  # Convert to tibble so that we have the same data format
+  as_tibble()
+rosebikes_kinder_tbl
+```
+
+
+# My third post
+```{r}
+
+#1. Libraries ----
+#Lets load some libraries
+#Better load a lot of libraries than run into some errors :)
+#Dont be surprised when I dont use some
+
+library(glue)
+library(httr)
+library(purrr)
+library(tidyverse) 
+library(rvest)     
+library(xopen)     
+library(jsonlite)  
+library(stringi)  
+library(jsonlite)
+library(readxl)
+library(lubridate)
+library("writexl")
+library(vroom)
+library(data.table)
+library(tictoc)
+library(magrittr)
+
+
+
+
+# Question  Table
+# 1 assignee, patent_assignee
+# 2 assignee, patent_assignee, patent
+# 3 assignee, patent_assignee, uspc
+
+#2.1 Assignee Data ----
+assignee_col_types <- list(
+  id = col_character(),
+  type = col_character(),
+  organization = col_character()
+)
+assignee_tbl <- vroom(
+  file       = "~/R_scripts/patent_data/Patent_data_reduced/assignee.tsv", 
+  delim      = "\t", 
+  col_types  = assignee_col_types,
+  na         = c("", "NA", "NULL")
+)
+
+#2.2 Patent_assignee Data ----
+patent_assignee_col_types <- list(
+  patent_id = col_character(),
+  assignee_id = col_character()
+)
+patent_assignee_tbl <- vroom(
+  file       = "~/R_scripts/patent_data/Patent_data_reduced/patent_assignee.tsv", 
+  delim      = "\t", 
+  col_types  = patent_assignee_col_types,
+  na         = c("", "NA", "NULL")
+)
+
+#2.3 Patent Data ----
+patent_col_types <- list(
+  id = col_character(),
+  date = col_date("%Y-%m-%d"),
+  num_claims = col_double()
+)
+
+patent_tbl <- vroom(
+  file       = "~/R_scripts/patent_data/Patent_data_reduced/patent.tsv", 
+  delim      = "\t", 
+  col_types  = patent_col_types,
+  na         = c("", "NA", "NULL")
+)
+#2.4 USPC data
+uspc_col_types <- list(
+  patent_id = col_character(),
+  mainclass_id = col_character(),
+  sequence = col_character()
+)
+
+uspc_tbl <- vroom(
+  file       = "~/R_scripts/patent_data/Patent_data_reduced/uspc.tsv", 
+  delim      = "\t", 
+  col_types  = uspc_col_types,
+  na         = c("", "NA", "NULL")
+)
+
+
+
+#3.0 Check for class and Set as data.table
+#Check class
+class(assignee_tbl)
+
+
+
+
+
+#SetDT
+setDT(assignee_tbl)
+setDT(patent_assignee_tbl)
+setDT(uspc_tbl)
+setDT(patent_tbl)
+
+
+
+#Step1: Join data(assignee and patent assignee)
+#data.table code
+
+# patent_dominance_tbl <- merge(x = assignee_tbl, y = patent_assignee_tbl, 
+#                        by    = c("id" = "assignee_id"), 
+#                        all.x = TRUE, 
+#                        all.y = FALSE)
+# patent_dominance_tbl %>% glimpse()
+# 
+patent_dominance_tbl <- assignee_tbl %>%
+  left_join(patent_assignee_tbl, by = c("id" = "assignee_id"))
+patent_dominance_tbl %>% glimpse()
+
+
+
+#Step2: Summarize data
+patent_dominance_tbl %>%
+  group_by(organization) %>%
+  summarise(patent_dominance = n()) %>%
+  ungroup() %>%
+  arrange(desc(patent_dominance))
+
+
+
+#CHANGE COLUMN_NAME IN PATENT_TBL, ID=PATENT_ID
+setnames(patent_tbl, "id", "patent_id")
+
+recent_patent_activity_tbl <-  patent_dominance_tbl%>%
+  left_join(patent_tbl, by = "patent_id")
+
+#Step2: Summarize data by organization and Year
+recent_patent_activity_date_tbl <- recent_patent_activity_tbl %>%
+  separate(col  = date,
+           into = c("year", "month", "day"),
+           sep  = "-", remove = FALSE)
+
+recent_patent_activity_date_tbl %>%
+  filter(month == 10) %>%
+  group_by(organization) %>%
+  summarise(recent_patent_activity = n()) %>%
+  ungroup() %>%
+  arrange(desc(recent_patent_activity))
+
+
+
+
+#Step: Join data(assignee, patent_assignee(patent_dominance_tbl), uspc)
+innovation_in_tech_tbl <-  patent_dominance_tbl%>%
+  left_join(uspc_tbl, by = "patent_id")
+
+top_10_patents <- innovation_in_tech_tbl %>%
+  select(organization, patent_id, mainclass_id) %>%
+  group_by(organization,mainclass_id) %>%
+  summarise(top_10 = n()) %>%
+  ungroup() %>%
+  arrange(desc(top_10)) 
+
+top_10_patents %>%
+  select(organization,mainclass_id)%>%
+  group_by(mainclass_id) %>%
+  summarise(top_5_USPO = n()) %>%
+  ungroup %>%
+  arrange(desc(top_5_USPO))
+
+
+```
+
+
+# My last post :)
+```{r}
+
+
+
+#Question 1: Cumulative Covid-19 cases
+#Goal: 
+#Map the time course of the cumulative Covid-19 cases! 
+#Your plot should look like this
+
+
+#Los gehts!!!!!
+#Lets go
+
+
+
+#STEP 1 
+#LOAD LIBRARIES
+
+
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
+
+
+#Step 2
+#Load Data
+
+covid_data_tbl <- read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")
+
+
+#Step 3
+#Data Manipulation
+
+#Do not forget to ungroup
+
+cumulative_cases_tbl <- covid_data_tbl %>%
+  filter(year == 2020) %>%
+  filter(countriesAndTerritories %in% c("Germany", "United_Kingdom", "France", "Spain", "United_States_of_America")) %>%
+  filter(month %in% c(1:11)) %>%
+  select(month,dateRep, countriesAndTerritories, cases) %>%
+  mutate(date = dmy(dateRep)) %>%
+  arrange(date) %>%
+  group_by(countriesAndTerritories) %>%
+  mutate(cum_cases = cumsum(cases)) %>%
+  ungroup ()
+
+
+
+#Step 4
+
+#Data Visualisation
+
+cumulative_cases_tbl %>%
+  #Canvas
+  ggplot(aes(x = date, y =cum_cases, color = countriesAndTerritories)) +
+  #Geometries
+  geom_line(size = 0.5, linetype = 1) +
+  
+  # geom_label(aes(label = label_txt),
+  #         hjust = "inward",
+  #           size  = 2) +
+  # 
+  #Formatting
+  expand_limits(y = 0.0) +
+  scale_x_date(breaks = "1 month", date_labels = "%B") +
+  # scale_x_continuous(breaks = cumulative_cases_tbl$month,
+  #                      labels = month(cumulative_cases_tbl$date, label = T)) +
+  scale_y_continuous(labels = scales::dollar_format(scale = 1/1e6,
+                                                    big.mark = ".",
+                                                    decimal.mark = ",",
+                                                    prefix = "",
+                                                    suffix = "M")) +
+  # breaks = seq(0, 000000, by =8)) +
+  labs(
+    title = "COVID-19 confirmed cases worldwide",
+    subtitle = "As of 11/02/2020, Europe had more cases than the USA",
+    x = "Year 2020",
+    y = "Cumulative Cases",
+    color = "Country")  +  
+  theme_bw() +
+  theme(legend.position  = "bottom", 
+        legend.direction = "horizontal",
+        axis.text.x = element_text(angle = 45),
+        plot.title = element_text(face = "bold")
+  )
+
+
+
+
+#ON TO THE NEXT ONE
+#Question 2
+
+# Goal 
+#Visualize the distribution of the mortality rate (deaths / population) with
+# geom_map().
+
+
+#Additional librarz
+library(maps)
+
+
+world <- map_data("world")
+
+covid_mortality_rate_tbl  <- covid_data_tbl %>%
+  select(countriesAndTerritories, deaths, popData2019, continentExp) %>%
+  group_by(countriesAndTerritories, popData2019)%>%
+  summarise(sum_deaths_country = sum(deaths)) %>%
+  mutate(mortality_rate = sum_deaths_country / popData2019) %>%
+  ungroup() %>%
+  
+  
+  
+  mutate(across(countriesAndTerritories, str_replace_all, "_", " ")) %>%
+  mutate(countriesAndTerritories = case_when(
+    
+    countriesAndTerritories == "United Kingdom" ~ "UK",
+    countriesAndTerritories == "United States of America" ~ "USA",
+    countriesAndTerritories == "Czechia" ~ "Czech Republic",
+    TRUE ~ countriesAndTerritories
+    
+  ))
+
+
+Map_tbl <- covid_mortality_rate_tbl %>%
+  left_join(world, by = c( "countriesAndTerritories" = "region")) %>%
+  rename(region = countriesAndTerritories)
+
+
+#Data Visualization
+Map_tbl %>%
+  ggplot() +
+  geom_map(aes(map_id = region, fill = mortality_rate ), map = world ) +
+  expand_limits(x= Map_tbl$long, y =Map_tbl$lat) +
+  scale_fill_gradient(low = "#ee4540", high = "#2d142c", labels = scales::percent) +
+  
+  labs(
+    title = "Confirmed COVID-19 deaths relative to the size of the population",
+    subtitle = "More than 1.2 Million confirmed COVID-19 deaths worldwide",
+    x = " ",
+    y = " ",
+    color = "Mortality Rate")  +  
+  theme_dark() +
+  theme(legend.position  = "right", 
+        legend.direction = "vertical",
+        plot.title = element_text(face = "bold"),
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        axis.ticks = element_blank()
+  )
+
+```
 
 Last compiled: `r Sys.Date()`
 

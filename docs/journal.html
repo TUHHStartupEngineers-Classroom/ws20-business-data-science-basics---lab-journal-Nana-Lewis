@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Nana Sekyere Lewis" />
+
+<meta name="date" content="2020-11-05" />
+
+<title>Journal (reproducible report)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MyLabJournal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="journal.html">Journal</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Class notes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="dictionary.html">Dictionary</a>
+    </li>
+    <li>
+      <a href="data_wrangling.html">Data Wrangling</a>
+    </li>
+    <li>
+      <a href="ggplot_graphs.html">ggplot graphs</a>
+    </li>
+    <li>
+      <a href="machine_learning.html">machine learning</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="links.html">Links</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Journal (reproducible report)</h1>
+<h4 class="author">Nana Sekyere Lewis</h4>
+<h4 class="date">2020-11-05</h4>
+
+</div>
+
+
+<p><strong>IMPORTANT:</strong> You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.</p>
+<p>This is an <code>.Rmd</code> file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header.</p>
+<div id="my-first-post" class="section level1">
+<h1><span class="header-section-number">1</span> My first post</h1>
+<pre class="r"><code># Data Science at TUHH ------------------------------------------------------
+
+
+#Challenge 1 -Introduction to the Tidyverse ----
+
+
+# 1.0 Load libraries ----
+
+library(tidyverse)
+library(readxl)
+
+
+# 2.0 Importing Files ----
+
+# A good convention is to use the file name and suffix it with tbl for the data structure tibble
+bikes_tbl      &lt;- read_excel(path = &quot;~/R_scripts/DS_101/00_data/01_bike_sales/01_raw_data/bikes.xlsx&quot;)
+orderlines_tbl &lt;- read_excel(&quot;~/R_scripts/DS_101/00_data/01_bike_sales/01_raw_data/orderlines.xlsx&quot;)
+
+# Not necessary for this analysis, but for the sake of completeness
+bikeshops_tbl  &lt;- read_excel(&quot;~/R_scripts/DS_101/00_data/01_bike_sales/01_raw_data/bikeshops.xlsx&quot;)
+
+
+# 3.0 Examining Data ----
+
+left_join(orderlines_tbl, bikes_tbl, by = c(&quot;product.id&quot; = &quot;bike.id&quot;))</code></pre>
+<pre><code>## # A tibble: 15,644 x 15
+##    ...1  order.id order.line order.date          customer.id product.id quantity
+##    &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;dttm&gt;                    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1 1            1          1 2015-01-07 00:00:00           2       2681        1
+##  2 2            1          2 2015-01-07 00:00:00           2       2411        1
+##  3 3            2          1 2015-01-10 00:00:00          10       2629        1
+##  4 4            2          2 2015-01-10 00:00:00          10       2137        1
+##  5 5            3          1 2015-01-10 00:00:00           6       2367        1
+##  6 6            3          2 2015-01-10 00:00:00           6       1973        1
+##  7 7            3          3 2015-01-10 00:00:00           6       2422        1
+##  8 8            3          4 2015-01-10 00:00:00           6       2655        1
+##  9 9            3          5 2015-01-10 00:00:00           6       2247        1
+## 10 10           4          1 2015-01-11 00:00:00          22       2408        1
+## # ... with 15,634 more rows, and 8 more variables: model &lt;chr&gt;,
+## #   model.year &lt;dbl&gt;, frame.material &lt;chr&gt;, weight &lt;dbl&gt;, price &lt;dbl&gt;,
+## #   category &lt;chr&gt;, gender &lt;chr&gt;, url &lt;chr&gt;</code></pre>
+<pre class="r"><code># 4.0 Joining Data ----
+
+# Chaining commands with the pipe and assigning it to order_items_joined_tbl
+bike_orderlines_joined_tbl &lt;- orderlines_tbl %&gt;%
+  left_join(bikes_tbl, by = c(&quot;product.id&quot; = &quot;bike.id&quot;)) %&gt;%
+  left_join(bikeshops_tbl, by = c(&quot;customer.id&quot; = &quot;bikeshop.id&quot;))
+
+
+# 5.0 Wrangling Data ----
+
+bike_orderlines_wrangled_tbl &lt;- bike_orderlines_joined_tbl %&gt;%
+  # 4.1 Separate category name
+  separate(col    = category,
+           into   = c(&quot;category.1&quot;, &quot;category.2&quot;, &quot;category.3&quot;),
+           sep    = &quot; - &quot;) %&gt;%
+  
+  # 4.2 Add the total price (price * quantity) 
+  # Add a column to a tibble that uses a formula-style calculation of other columns
+  mutate(total.price = price * quantity) %&gt;%
+  
+  # 4.3 Optional: Reorganize. Using select to grab or remove unnecessary columns
+  # 4.3.1 by exact column name
+  select(-...1, -gender) %&gt;%
+  
+  # 4.3.2 by a pattern
+  # You can use the select_helpers to define patterns. 
+  # Type ?ends_with and click on Select helpers in the documentation
+  select(-ends_with(&quot;.id&quot;)) %&gt;%
+  
+  # 4.3.3 Actually we need the column &quot;order.id&quot;. Let&#39;s bind it back to the data
+  bind_cols(bike_orderlines_joined_tbl %&gt;% select(order.id)) %&gt;% 
+  
+  # 4.3.4 You can reorder the data by selecting the columns in your desired order.
+  # You can use select_helpers like contains() or everything()
+  select(order.id, contains(&quot;order&quot;), contains(&quot;model&quot;), contains(&quot;category&quot;),
+         price, quantity, total.price,
+         everything()) %&gt;%
+  
+  # 4.4 Rename columns because we actually wanted underscores instead of the dots
+  # (one at the time vs. multiple at once)
+  rename(bikeshop = name) %&gt;%
+  set_names(names(.) %&gt;% str_replace_all(&quot;\\.&quot;, &quot;_&quot;))
+
+#Check location multiple features (State and city)
+#bike_orderlines_wrangled_tbl$location
+
+#Probably unecessary code but also helps to see just the location column
+bike_orderlines_wrangled_tbl %&gt;% 
+  select(location) %&gt;%
+  filter(str_detect(location, &quot;^Hamburg&quot;))</code></pre>
+<pre><code>## # A tibble: 975 x 1
+##    location        
+##    &lt;chr&gt;           
+##  1 Hamburg, Hamburg
+##  2 Hamburg, Hamburg
+##  3 Hamburg, Hamburg
+##  4 Hamburg, Hamburg
+##  5 Hamburg, Hamburg
+##  6 Hamburg, Hamburg
+##  7 Hamburg, Hamburg
+##  8 Hamburg, Hamburg
+##  9 Hamburg, Hamburg
+## 10 Hamburg, Hamburg
+## # ... with 965 more rows</code></pre>
+<pre class="r"><code>#Challenge begins
+#4.5 Split location into state and city
+bike_orderlines_wrangled2_tbl &lt;- bike_orderlines_wrangled_tbl %&gt;%
+  separate(col    = location,
+           into   = c(&quot;city&quot;, &quot;state&quot;),
+           sep    = (&quot;,&quot;)) 
+
+
+# 6.0 Business Insights ----
+# 6.1 Sales by location (State) ----
+
+
+# Step 1 - Manipulate
+
+sales_by_state_tbl &lt;- bike_orderlines_wrangled2_tbl %&gt;%
+  # Select columns
+  select(state, total_price) %&gt;%
+  
+  # Grouping by state and summarizing sales
+  group_by(state) %&gt;% 
+  summarize(sales = sum(total_price)) %&gt;%
+  
+  # Add a column that turns the numbers into a currency format 
+  # mutate(sales_text = scales::dollar(sales)) &lt;- Works for dollar values
+  mutate(sales_text = scales::dollar(sales, big.mark = &quot;.&quot;, 
+                                     decimal.mark = &quot;,&quot;, 
+                                     prefix = &quot;&quot;, 
+                                     suffix = &quot; €&quot;))
+
+sales_by_state_tbl</code></pre>
+<pre><code>## # A tibble: 12 x 3
+##    state                               sales sales_text         
+##    &lt;chr&gt;                               &lt;dbl&gt; &lt;chr&gt;              
+##  1 &quot; Baden-W\u00fcrttemberg&quot;         6521090 6.521.090 &lt;U+20AC&gt; 
+##  2 &quot; Bavaria&quot;                        6742819 6.742.819 &lt;U+20AC&gt; 
+##  3 &quot; Berlin&quot;                         1128433 1.128.433 &lt;U+20AC&gt; 
+##  4 &quot; Bremen&quot;                        10653499 10.653.499 &lt;U+20AC&gt;
+##  5 &quot; Hamburg&quot;                        3874756 3.874.756 &lt;U+20AC&gt; 
+##  6 &quot; Hesse&quot;                          1558901 1.558.901 &lt;U+20AC&gt; 
+##  7 &quot; Lower Saxony&quot;                   4107115 4.107.115 &lt;U+20AC&gt; 
+##  8 &quot; Mecklenburg-Western Pomerania&quot;   618974 618.974 &lt;U+20AC&gt;   
+##  9 &quot; North Rhine-Westphalia&quot;        21200613 21.200.613 &lt;U+20AC&gt;
+## 10 &quot; Saxony&quot;                         2230245 2.230.245 &lt;U+20AC&gt; 
+## 11 &quot; Saxony-Anhalt&quot;                   569614 569.614 &lt;U+20AC&gt;   
+## 12 &quot; Schleswig-Holstein&quot;             3224749 3.224.749 &lt;U+20AC&gt;</code></pre>
+<pre class="r"><code># Step 2 - Visualize
+
+#Plot bar chart(This is for Rmarkdown. Not sure how to use that just about yet)
+#```{r plot, fig.width=10, fig.height=7}
+
+#step 2: Visualize
+#plot a bar chart
+sales_by_state_tbl %&gt;%
+  
+  # Setup canvas with the columns year (x-axis) and sales (y-axis)
+  ggplot(aes(x = state, y = sales)) +
+  
+  # Geometries
+  geom_col(fill = &quot;#2DC6D6&quot;) + # Use geom_col for a bar plot
+  #geom_label(aes(label = sales_text)) + # Adding labels to the bars
+  #geom_smooth(method = &quot;lm&quot;, se = FALSE) + # Adding a trendline
+  
+  # Formatting
+  # scale_y_continuous(labels = scales::dollar) + # Change the y-axis. 
+  # Again, we have to adjust it for euro values
+  scale_y_continuous(labels = scales::dollar_format(big.mark = &quot;.&quot;, 
+                                                    decimal.mark = &quot;,&quot;, 
+                                                    prefix = &quot;&quot;, 
+                                                    suffix = &quot; €&quot;)) +
+  labs(
+    title    = &quot;Revenue by state&quot;,
+    #subtitle = &quot;Upward Trend&quot;,
+    x = &quot;state&quot;, # Override defaults for x and y
+    y = &quot;Revenue&quot;)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))#rotate x-axis </code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code># 6.2 Sales by Location (State) and Category 2 ----
+library(lubridate)
+
+# Step 1 - Manipulate
+
+sales_by_year_by_state_tbl &lt;- bike_orderlines_wrangled2_tbl %&gt;%
+  
+  # Select columns and add a year
+  select(order_date, total_price, state) %&gt;%
+  mutate(year = year(order_date)) %&gt;%
+  
+  # Group by and summarize year and state
+  group_by(year, state) %&gt;%
+  summarise(sales = sum(total_price)) %&gt;%
+  ungroup() %&gt;%
+  
+  # Format $ Text
+  mutate(sales_text = scales::dollar(sales, big.mark = &quot;.&quot;, 
+                                     decimal.mark = &quot;,&quot;, 
+                                     prefix = &quot;&quot;, 
+                                     suffix = &quot; €&quot;)) %&gt;%
+  arrange(desc(sales))
+
+sales_by_year_by_state_tbl</code></pre>
+<pre><code>## # A tibble: 60 x 4
+##     year state                       sales sales_text        
+##    &lt;dbl&gt; &lt;chr&gt;                       &lt;dbl&gt; &lt;chr&gt;             
+##  1  2019 &quot; North Rhine-Westphalia&quot; 5189507 5.189.507 &lt;U+20AC&gt;
+##  2  2017 &quot; North Rhine-Westphalia&quot; 4671541 4.671.541 &lt;U+20AC&gt;
+##  3  2018 &quot; North Rhine-Westphalia&quot; 4601681 4.601.681 &lt;U+20AC&gt;
+##  4  2015 &quot; North Rhine-Westphalia&quot; 3735092 3.735.092 &lt;U+20AC&gt;
+##  5  2016 &quot; North Rhine-Westphalia&quot; 3002792 3.002.792 &lt;U+20AC&gt;
+##  6  2019 &quot; Bremen&quot;                 2808838 2.808.838 &lt;U+20AC&gt;
+##  7  2017 &quot; Bremen&quot;                 2557145 2.557.145 &lt;U+20AC&gt;
+##  8  2016 &quot; Bremen&quot;                 2057760 2.057.760 &lt;U+20AC&gt;
+##  9  2018 &quot; Bremen&quot;                 1833844 1.833.844 &lt;U+20AC&gt;
+## 10  2019 &quot; Bavaria&quot;                1730872 1.730.872 &lt;U+20AC&gt;
+## # ... with 50 more rows</code></pre>
+<pre class="r"><code># Step 2 - Visualize
+
+#Plot bar chart(facet_wrap)
+sales_by_year_by_state_tbl %&gt;%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = year, y = sales, fill = state)) +
+  
+  # Geometries
+  geom_col() + # Run up to here to get a stacked bar plot
+  
+  # Facet
+  facet_wrap(~ state) +
+  
+  # Formatting
+  scale_y_continuous(labels = scales::dollar_format(big.mark = &quot;.&quot;, 
+                                                    decimal.mark = &quot;,&quot;, 
+                                                    prefix = &quot;&quot;, 
+                                                    suffix = &quot; €&quot;)) +
+  labs(
+    title = &quot;Revenue by year and state&quot;,
+    fill = &quot;State&quot; # Changes the legend name
+  )+ 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<pre class="r"><code># 7.0 Writing Files ----
+
+#6.1 Excel ----
+library(&quot;writexl&quot;)
+bike_orderlines_wrangled2_tbl %&gt;%
+  write_xlsx(&quot;~/R_scripts/DS_101/00_data/01_bike_sales/02_wrangled_data/bike_orderlines2.xlsx&quot;)
+
+# 6.2 CSV ----
+bike_orderlines_wrangled2_tbl %&gt;% 
+  write_csv(&quot;~/R_scripts/DS_101/00_data/01_bike_sales/02_wrangled_data/bike_orderlines2.csv&quot;)
+
+# 6.3 RDS ----
+bike_orderlines_wrangled2_tbl %&gt;% 
+  write_rds(&quot;~/R_scripts/DS_101/00_data/01_bike_sales/02_wrangled_data/bike_orderlines2.rds&quot;)</code></pre>
+<p>Last compiled: 2020-12-29</p>
+<p>Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left.</p>
+<div id="second-level-header" class="section level2">
+<h2><span class="header-section-number">1.1</span> Second level header</h2>
+<p>You can add more headers by adding more hashtags. These won’t be put into the table of contents</p>
+<div id="third-level-header" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> third level header</h3>
+<p>Here’s an even lower level header</p>
+</div>
+</div>
+</div>
+<div id="my-second-post-note-the-order" class="section level1">
+<h1><span class="header-section-number">2</span> My second post (note the order)</h1>
+<pre class="r"><code>#Challenge 2.0 : Data Acquisition ----
+#Load Relevant Packages
+
+
+library(glue)
+library(httr)
+library(purrr)
+library(tidyverse) 
+library(rvest)     
+library(xopen)     
+library(jsonlite)  
+library(stringi)  
+library(jsonlite)
+
+
+
+#2.1: Data from an API ----
+#A COVID API.
+
+coro_url &lt;- &quot;https://api.covid19api.com/&quot;
+
+
+xopen(coro_url) # Open links directly from RStudio to inspect them</code></pre>
+<pre><code>## Running cmd /c start &quot;\&quot;\&quot;&quot; /b &quot;https://api.covid19api.com/&quot;</code></pre>
+<pre class="r"><code>#lets try to get something
+coro_data &lt;- GET(coro_url)
+coro_data</code></pre>
+<pre><code>## Response [https://api.covid19api.com/]
+##   Date: 2020-11-30 21:51
+##   Status: 200
+##   Content-Type: application/json; charset=UTF-8
+##   Size: 6.5 kB
+## {&quot;countriesRoute&quot;:{&quot;Name&quot;:&quot;Get List Of Countries&quot;,&quot;Description&quot;:&quot;Returns all countries and associated provi...</code></pre>
+<pre class="r"><code>coro_data_list &lt;- coro_data %&gt;%
+  .$content %&gt;%
+  rawToChar() %&gt;%
+  fromJSON()
+coro_data_list</code></pre>
+<pre><code>## $countriesRoute
+## $countriesRoute$Name
+## [1] &quot;Get List Of Countries&quot;
+## 
+## $countriesRoute$Description
+## [1] &quot;Returns all countries and associated provinces. The country_slug variable is used for country specific data&quot;
+## 
+## $countriesRoute$Path
+## [1] &quot;/countries&quot;
+## 
+## 
+## $countryDayOneRoute
+## $countryDayOneRoute$Name
+## [1] &quot;Get List Of Cases Per Country Per Province By Case Type From The First Recorded Case&quot;
+## 
+## $countryDayOneRoute$Description
+## [1] &quot;Returns all cases by case type for a country from the first recorded case. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryDayOneRoute$Path
+## [1] &quot;/dayone/country/:country&quot;
+## 
+## 
+## $countryDayOneTotalRoute
+## $countryDayOneTotalRoute$Name
+## [1] &quot;Get List Of Cases Per Country By Case Type From The First Recorded Case&quot;
+## 
+## $countryDayOneTotalRoute$Description
+## [1] &quot;Returns all cases by case type for a country from the first recorded case. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryDayOneTotalRoute$Path
+## [1] &quot;/total/dayone/country/:country&quot;
+## 
+## 
+## $countryRoute
+## $countryRoute$Name
+## [1] &quot;Get List Of Cases Per Country Per Province By Case Type&quot;
+## 
+## $countryRoute$Description
+## [1] &quot;Returns all cases by case type for a country. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryRoute$Path
+## [1] &quot;/country/:country&quot;
+## 
+## 
+## $countryRoutePremium
+## $countryRoutePremium$Name
+## [1] &quot;Premium Data: Get List Of Cases Per Country By Case Type&quot;
+## 
+## $countryRoutePremium$Description
+## [1] &quot;Returns all cases by case type for a country. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryRoutePremium$Path
+## [1] &quot;/premium/country/:country&quot;
+## 
+## 
+## $countryRoutePremiumData
+## $countryRoutePremiumData$Name
+## [1] &quot;Premium Data: Get Data Per Country&quot;
+## 
+## $countryRoutePremiumData$Description
+## [1] &quot;Returns all cases by case type for a country. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryRoutePremiumData$Path
+## [1] &quot;/premium/country/data/:country&quot;
+## 
+## 
+## $countryStatusDayOneLiveRoute
+## $countryStatusDayOneLiveRoute$Name
+## [1] &quot;Get List Of Cases Per Country Per Province By Case Type From The First Recorded Case, updated with latest live count&quot;
+## 
+## $countryStatusDayOneLiveRoute$Description
+## [1] &quot;Returns all cases by case type for a country from the first recorded case with the latest record being the live count. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryStatusDayOneLiveRoute$Path
+## [1] &quot;/dayone/country/:country/status/:status/live&quot;
+## 
+## 
+## $countryStatusDayOneRoute
+## $countryStatusDayOneRoute$Name
+## [1] &quot;Get List Of Cases Per Country Per Province By Case Type From The First Recorded Case&quot;
+## 
+## $countryStatusDayOneRoute$Description
+## [1] &quot;Returns all cases by case type for a country from the first recorded case. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryStatusDayOneRoute$Path
+## [1] &quot;/dayone/country/:country/status/:status&quot;
+## 
+## 
+## $countryStatusDayOneTotalRoute
+## $countryStatusDayOneTotalRoute$Name
+## [1] &quot;Get List Of Cases Per Country By Case Type From The First Recorded Case&quot;
+## 
+## $countryStatusDayOneTotalRoute$Description
+## [1] &quot;Returns all cases by case type for a country from the first recorded case. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryStatusDayOneTotalRoute$Path
+## [1] &quot;/total/dayone/country/:country/status/:status&quot;
+## 
+## 
+## $countryStatusLiveRoute
+## $countryStatusLiveRoute$Name
+## [1] &quot;Daily list of cases per Country per Province by Case Type, updated with latest live count&quot;
+## 
+## $countryStatusLiveRoute$Description
+## [1] &quot;Returns all cases by case type for a country with the latest record being the live count. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryStatusLiveRoute$Path
+## [1] &quot;/country/:country/status/:status/live&quot;
+## 
+## 
+## $countryStatusRoute
+## $countryStatusRoute$Name
+## [1] &quot;Get List Of Cases Per Country Per Province By Case Type&quot;
+## 
+## $countryStatusRoute$Description
+## [1] &quot;Returns all cases by case type for a country. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryStatusRoute$Path
+## [1] &quot;/country/:country/status/:status&quot;
+## 
+## 
+## $countryStatusTotalRoute
+## $countryStatusTotalRoute$Name
+## [1] &quot;Get List Of Cases Per Country By Case Type&quot;
+## 
+## $countryStatusTotalRoute$Description
+## [1] &quot;Returns all cases by case type for a country. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryStatusTotalRoute$Path
+## [1] &quot;/total/country/:country/status/:status&quot;
+## 
+## 
+## $countrySummaryRoutePremium
+## $countrySummaryRoutePremium$Name
+## [1] &quot;Premium Data: Get Summary Of World Case Data&quot;
+## 
+## $countrySummaryRoutePremium$Description
+## [1] &quot;Returns summary of all country data&quot;
+## 
+## $countrySummaryRoutePremium$Path
+## [1] &quot;/premium/summary&quot;
+## 
+## 
+## $countryTestingPremium
+## $countryTestingPremium$Name
+## [1] &quot;Premium Data: Get Testing Data Per Country&quot;
+## 
+## $countryTestingPremium$Description
+## [1] &quot;Get data around testing&quot;
+## 
+## $countryTestingPremium$Path
+## [1] &quot;/premium/country/testing/:country&quot;
+## 
+## 
+## $countryTotalRoute
+## $countryTotalRoute$Name
+## [1] &quot;Get List Of Cases Per Country By Case Type&quot;
+## 
+## $countryTotalRoute$Description
+## [1] &quot;Returns all cases by case type for a country. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $countryTotalRoute$Path
+## [1] &quot;/total/country/:country&quot;
+## 
+## 
+## $exportRoute
+## $exportRoute$Name
+## [1] &quot;Get All Data as a zip file&quot;
+## 
+## $exportRoute$Description
+## [1] &quot;Returns all data in the system, compressed as a zip file. Warning: this request returns 8MB+ and takes 5+ seconds&quot;
+## 
+## $exportRoute$Path
+## [1] &quot;/export&quot;
+## 
+## 
+## $liveCountryRoute
+## $liveCountryRoute$Name
+## [1] &quot;Get Live List Of Cases Per Country Per Province By Case Type&quot;
+## 
+## $liveCountryRoute$Description
+## [1] &quot;Returns all live cases by case type for a country. These records are pulled every 10 minutes and are ungrouped. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $liveCountryRoute$Path
+## [1] &quot;/live/country/:country&quot;
+## 
+## 
+## $liveCountryStatusAfterDateRoute
+## $liveCountryStatusAfterDateRoute$Name
+## [1] &quot;Get a Time Series Of Cases Per Country Per Province By Case Type After A Date&quot;
+## 
+## $liveCountryStatusAfterDateRoute$Description
+## [1] &quot;Returns all live cases by case type for a country after a given date. These records are pulled every 10 minutes and are ungrouped. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $liveCountryStatusAfterDateRoute$Path
+## [1] &quot;/live/country/:country/status/:status/date/:date&quot;
+## 
+## 
+## $liveCountryStatusRoute
+## $liveCountryStatusRoute$Name
+## [1] &quot;Get a time series Of Cases Per Country Per Province By Case Type&quot;
+## 
+## $liveCountryStatusRoute$Description
+## [1] &quot;Returns all live cases by case type for a country. These records are pulled every 10 minutes and are ungrouped. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $liveCountryStatusRoute$Path
+## [1] &quot;/live/country/:country/status/:status&quot;
+## 
+## 
+## $summaryRoute
+## $summaryRoute$Name
+## [1] &quot;Summary of new and total cases per country&quot;
+## 
+## $summaryRoute$Description
+## [1] &quot;A summary of new and total cases per country&quot;
+## 
+## $summaryRoute$Path
+## [1] &quot;/summary&quot;
+## 
+## 
+## $travelAdvicePremium
+## $travelAdvicePremium$Name
+## [1] &quot;Premium Data: Travel information for a given country&quot;
+## 
+## $travelAdvicePremium$Description
+## [1] &quot;Returns all cases by case type for a country. Country must be the country_slug from /countries. Cases must be one of: confirmed, recovered, deaths&quot;
+## 
+## $travelAdvicePremium$Path
+## [1] &quot;/premium/travel/country/:country&quot;
+## 
+## 
+## $webhookRoute
+## $webhookRoute$Name
+## [1] &quot;Add a webhook to be notified when new data becomes available&quot;
+## 
+## $webhookRoute$Description
+## [1] &quot;POST Request must be in JSON format with key URL and the value of the webhook. Response data is the same as returned from /summary&quot;
+## 
+## $webhookRoute$Path
+## [1] &quot;/webhook&quot;</code></pre>
+<pre class="r"><code>#2.2: Web Scraping ----
+
+#Task: Scrape one of the competitor websites of canyon
+#(either https://www.rosebikes.de/ or https://www.radon-bikes.de) 
+#create a small database.
+#database should contain the &quot;model names&quot; and &quot;prices&quot; for 
+#&quot;at least one category&quot;. 
+#Print the first 10 rows of your tibbles. 
+
+
+#2.2.1 Bicycle Categories ----
+
+#assign the  URL to a variable
+rosebikes_category_url &lt;- &quot;https://www.rosebikes.de/fahrr%C3%A4der&quot;
+xopen(rosebikes_category_url)</code></pre>
+<pre><code>## Running cmd /c start &quot;\&quot;\&quot;&quot; /b &quot;https://www.rosebikes.de/fahrr%C3%A4der&quot;</code></pre>
+<pre class="r"><code>#read in the html from the URL
+rosebikes_category_html &lt;- rosebikes_category_url %&gt;%
+  read_html() 
+
+# Select the correct html nodes and extract the category
+rosebikes_categories_tbl &lt;-rosebikes_category_html %&gt;%
+  html_nodes(css =&quot;.catalog-navigation__list-item &gt; a &quot;) %&gt;%
+  html_attr(&quot;title&quot;) %&gt;%
+  
+  #turn the vector into a table
+  enframe(name = &quot;position&quot;, value = &quot;category&quot;)
+rosebikes_categories_tbl</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    position category   
+##       &lt;int&gt; &lt;chr&gt;      
+##  1        1 MTB        
+##  2        2 Rennrad    
+##  3        3 Gravel     
+##  4        4 E-Bike     
+##  5        5 Cyclocross 
+##  6        6 Trekking   
+##  7        7 Fitness    
+##  8        8 Reise      
+##  9        9 Urban      
+## 10       10 Kinder     
+## 11       11 Sale       
+## 12       12 Bike-Finder</code></pre>
+<pre class="r"><code>#2.2.2 Model and Price ----
+
+#now to get the models under &quot;kinder&quot;
+rosebikes_kinder_url &lt;- &quot;https://www.rosebikes.de/fahrr%C3%A4der/kinder&quot;
+#xopen(rosebikes_kinder_url)
+
+### read in the html from the URL
+rosebikes_kinder_html &lt;- rosebikes_kinder_url %&gt;%
+  read_html()
+
+#get data from JSON format about the model name and price
+rosebikes_kinder_json_tbl &lt;- rosebikes_kinder_html %&gt;%
+  html_nodes(css = &quot;.catalog-product-tile__link&quot;) %&gt;%
+  html_attr(&quot;onclick&quot;)
+
+#remove &quot;window.dataLayer.push(&quot; and &quot;)&quot;
+rosebikes_kinder_tbl &lt;- rosebikes_kinder_json_tbl %&gt;%
+  str_remove_all(&quot;window.dataLayer.push\\(&quot;) %&gt;%
+  str_remove(&quot;\\)$&quot;) %&gt;%
+  
+  # Convert the JSON format to dataframe
+  # map runs that function on each element of the list
+  
+  map(fromJSON) %&gt;% # need JSON ### need lists
+  
+  # Extract relevant information of the nested list
+  map(purrr::pluck, &quot;ecommerce&quot;,&quot;click&quot;,&quot;products&quot;) %&gt;% # Need purrr and expl above
+  
+  # Stack all lists together
+  bind_rows() %&gt;%
+  # Convert to tibble so that we have the same data format
+  as_tibble()
+rosebikes_kinder_tbl</code></pre>
+<pre><code>## # A tibble: 10 x 8
+##    name         id        price  brand       category                          variant        list    position
+##    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;                             &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;   
+##  1 &quot;Seeker 16&quot;  230187201 399.95 Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 1       
+##  2 &quot;Belter 16&quot;  230186601 399.95 Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 2       
+##  3 &quot;Belter 14 &quot; 230186501 379.95 Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 3       
+##  4 &quot;NOOB&quot;       227196901 129    ROSE        &quot;Fahrr\u00e4der/Kinder/NOOB&quot;      dark blue/bla~ catego~ 4       
+##  5 &quot;Seeker 20 &quot; 230457401 599    Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 5       
+##  6 &quot;Belter 24&quot;  230186801 649    Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 6       
+##  7 &quot;Seeker 24 &quot; 230457501 724.95 Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 7       
+##  8 &quot;Seeker 14&quot;  230187101 399.95 Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 8       
+##  9 &quot;Belter 20&quot;  230186701 549.99 Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 9       
+## 10 &quot;Charger 12&quot; 230186901 169.95 Early Rider &quot;Fahrr\u00e4der/Kinder/EARLY RID~ aluminiumfarb~ catego~ 10</code></pre>
+</div>
+<div id="my-third-post" class="section level1">
+<h1><span class="header-section-number">3</span> My third post</h1>
+<pre class="r"><code>#1. Libraries ----
+#Lets load some libraries
+#Better load a lot of libraries than run into some errors :)
+#Dont be surprised when I dont use some
+
+library(glue)
+library(httr)
+library(purrr)
+library(tidyverse) 
+library(rvest)     
+library(xopen)     
+library(jsonlite)  
+library(stringi)  
+library(jsonlite)
+library(readxl)
+library(lubridate)
+library(&quot;writexl&quot;)
+library(vroom)
+library(data.table)
+library(tictoc)
+library(magrittr)
+
+
+
+
+# Question  Table
+# 1 assignee, patent_assignee
+# 2 assignee, patent_assignee, patent
+# 3 assignee, patent_assignee, uspc
+
+#2.1 Assignee Data ----
+assignee_col_types &lt;- list(
+  id = col_character(),
+  type = col_character(),
+  organization = col_character()
+)
+assignee_tbl &lt;- vroom(
+  file       = &quot;~/R_scripts/patent_data/Patent_data_reduced/assignee.tsv&quot;, 
+  delim      = &quot;\t&quot;, 
+  col_types  = assignee_col_types,
+  na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;)
+)
+
+#2.2 Patent_assignee Data ----
+patent_assignee_col_types &lt;- list(
+  patent_id = col_character(),
+  assignee_id = col_character()
+)
+patent_assignee_tbl &lt;- vroom(
+  file       = &quot;~/R_scripts/patent_data/Patent_data_reduced/patent_assignee.tsv&quot;, 
+  delim      = &quot;\t&quot;, 
+  col_types  = patent_assignee_col_types,
+  na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;)
+)
+
+#2.3 Patent Data ----
+patent_col_types &lt;- list(
+  id = col_character(),
+  date = col_date(&quot;%Y-%m-%d&quot;),
+  num_claims = col_double()
+)
+
+patent_tbl &lt;- vroom(
+  file       = &quot;~/R_scripts/patent_data/Patent_data_reduced/patent.tsv&quot;, 
+  delim      = &quot;\t&quot;, 
+  col_types  = patent_col_types,
+  na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;)
+)
+#2.4 USPC data
+uspc_col_types &lt;- list(
+  patent_id = col_character(),
+  mainclass_id = col_character(),
+  sequence = col_character()
+)
+
+uspc_tbl &lt;- vroom(
+  file       = &quot;~/R_scripts/patent_data/Patent_data_reduced/uspc.tsv&quot;, 
+  delim      = &quot;\t&quot;, 
+  col_types  = uspc_col_types,
+  na         = c(&quot;&quot;, &quot;NA&quot;, &quot;NULL&quot;)
+)
+
+
+
+#3.0 Check for class and Set as data.table
+#Check class
+class(assignee_tbl)</code></pre>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>#SetDT
+setDT(assignee_tbl)
+setDT(patent_assignee_tbl)
+setDT(uspc_tbl)
+setDT(patent_tbl)
+
+
+
+#Step1: Join data(assignee and patent assignee)
+#data.table code
+
+# patent_dominance_tbl &lt;- merge(x = assignee_tbl, y = patent_assignee_tbl, 
+#                        by    = c(&quot;id&quot; = &quot;assignee_id&quot;), 
+#                        all.x = TRUE, 
+#                        all.y = FALSE)
+# patent_dominance_tbl %&gt;% glimpse()
+# 
+patent_dominance_tbl &lt;- assignee_tbl %&gt;%
+  left_join(patent_assignee_tbl, by = c(&quot;id&quot; = &quot;assignee_id&quot;))
+patent_dominance_tbl %&gt;% glimpse()</code></pre>
+<pre><code>## Rows: 315,910
+## Columns: 4
+## $ id           &lt;chr&gt; &quot;org_004j997jM9yEdS7z4ReD&quot;, &quot;org_004j997jM9yEdS7z4ReD&quot;, &quot;org_005hVGA5JMOZs...
+## $ type         &lt;chr&gt; &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;2&quot;, &quot;2&quot;, &quot;3&quot;, &quot;3&quot;, &quot;2&quot;, &quot;3&quot;, &quot;3&quot;, &quot;2&quot;, &quot;2&quot;, &quot;3&quot;, &quot;2&quot;, &quot;2&quot;,...
+## $ organization &lt;chr&gt; &quot;University of Basel&quot;, &quot;University of Basel&quot;, &quot;Zetkama Sp&lt;U+00F3&gt;lka Akcyjna&quot;, &quot;M...
+## $ patent_id    &lt;chr&gt; &quot;8728438&quot;, &quot;8921361&quot;, &quot;8857791&quot;, &quot;8845559&quot;, &quot;8645286&quot;, &quot;8815936&quot;, &quot;8672803...</code></pre>
+<pre class="r"><code>#Step2: Summarize data
+patent_dominance_tbl %&gt;%
+  group_by(organization) %&gt;%
+  summarise(patent_dominance = n()) %&gt;%
+  ungroup() %&gt;%
+  arrange(desc(patent_dominance))</code></pre>
+<pre><code>## # A tibble: 45,004 x 2
+##    organization                                patent_dominance
+##    &lt;chr&gt;                                                  &lt;int&gt;
+##  1 International Business Machines Corporation             7547
+##  2 Samsung Electronics Co., Ltd.                           5835
+##  3 Canon Kabushiki Kaisha                                  4099
+##  4 Sony Corporation                                        3326
+##  5 Microsoft Corporation                                   3165
+##  6 Google Inc.                                             2668
+##  7 Kabushiki Kaisha Toshiba                                2656
+##  8 QUALCOMM Incorporated                                   2597
+##  9 LG Electronics Inc.                                     2459
+## 10 &lt;NA&gt;                                                    2377
+## # ... with 44,994 more rows</code></pre>
+<pre class="r"><code>#CHANGE COLUMN_NAME IN PATENT_TBL, ID=PATENT_ID
+setnames(patent_tbl, &quot;id&quot;, &quot;patent_id&quot;)
+
+recent_patent_activity_tbl &lt;-  patent_dominance_tbl%&gt;%
+  left_join(patent_tbl, by = &quot;patent_id&quot;)
+
+#Step2: Summarize data by organization and Year
+recent_patent_activity_date_tbl &lt;- recent_patent_activity_tbl %&gt;%
+  separate(col  = date,
+           into = c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;),
+           sep  = &quot;-&quot;, remove = FALSE)
+
+recent_patent_activity_date_tbl %&gt;%
+  filter(month == 10) %&gt;%
+  group_by(organization) %&gt;%
+  summarise(recent_patent_activity = n()) %&gt;%
+  ungroup() %&gt;%
+  arrange(desc(recent_patent_activity))</code></pre>
+<pre><code>## # A tibble: 8,115 x 2
+##    organization                                recent_patent_activity
+##    &lt;chr&gt;                                                        &lt;int&gt;
+##  1 International Business Machines Corporation                    670
+##  2 Samsung Electronics Co., Ltd.                                  551
+##  3 Canon Kabushiki Kaisha                                         330
+##  4 Sony Corporation                                               275
+##  5 Kabushiki Kaisha Toshiba                                       249
+##  6 Google Inc.                                                    244
+##  7 LG Electronics Inc.                                            226
+##  8 Microsoft Corporation                                          223
+##  9 QUALCOMM Incorporated                                          219
+## 10 &lt;NA&gt;                                                           204
+## # ... with 8,105 more rows</code></pre>
+<pre class="r"><code>#Step: Join data(assignee, patent_assignee(patent_dominance_tbl), uspc)
+innovation_in_tech_tbl &lt;-  patent_dominance_tbl%&gt;%
+  left_join(uspc_tbl, by = &quot;patent_id&quot;)
+
+top_10_patents &lt;- innovation_in_tech_tbl %&gt;%
+  select(organization, patent_id, mainclass_id) %&gt;%
+  group_by(organization,mainclass_id) %&gt;%
+  summarise(top_10 = n()) %&gt;%
+  ungroup() %&gt;%
+  arrange(desc(top_10)) 
+
+top_10_patents %&gt;%
+  select(organization,mainclass_id)%&gt;%
+  group_by(mainclass_id) %&gt;%
+  summarise(top_5_USPO = n()) %&gt;%
+  ungroup %&gt;%
+  arrange(desc(top_5_USPO))</code></pre>
+<pre><code>## # A tibble: 604 x 2
+##    mainclass_id top_5_USPO
+##    &lt;chr&gt;             &lt;int&gt;
+##  1 &lt;NA&gt;              16758
+##  2 435                2474
+##  3 514                2431
+##  4 424                2295
+##  5 705                1775
+##  6 709                1759
+##  7 455                1702
+##  8 340                1667
+##  9 428                1483
+## 10 370                1452
+## # ... with 594 more rows</code></pre>
+</div>
+<div id="my-last-post" class="section level1">
+<h1><span class="header-section-number">4</span> My last post :)</h1>
+<pre class="r"><code>#Question 1: Cumulative Covid-19 cases
+#Goal: 
+#Map the time course of the cumulative Covid-19 cases! 
+#Your plot should look like this
+
+
+#Los gehts!!!!!
+#Lets go
+
+
+
+#STEP 1 
+#LOAD LIBRARIES
+
+
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
+
+
+#Step 2
+#Load Data
+
+covid_data_tbl &lt;- read_csv(&quot;https://opendata.ecdc.europa.eu/covid19/casedistribution/csv&quot;)
+
+
+#Step 3
+#Data Manipulation
+
+#Do not forget to ungroup
+
+cumulative_cases_tbl &lt;- covid_data_tbl %&gt;%
+  filter(year == 2020) %&gt;%
+  filter(countriesAndTerritories %in% c(&quot;Germany&quot;, &quot;United_Kingdom&quot;, &quot;France&quot;, &quot;Spain&quot;, &quot;United_States_of_America&quot;)) %&gt;%
+  filter(month %in% c(1:11)) %&gt;%
+  select(month,dateRep, countriesAndTerritories, cases) %&gt;%
+  mutate(date = dmy(dateRep)) %&gt;%
+  arrange(date) %&gt;%
+  group_by(countriesAndTerritories) %&gt;%
+  mutate(cum_cases = cumsum(cases)) %&gt;%
+  ungroup ()
+
+
+
+#Step 4
+
+#Data Visualisation
+
+cumulative_cases_tbl %&gt;%
+  #Canvas
+  ggplot(aes(x = date, y =cum_cases, color = countriesAndTerritories)) +
+  #Geometries
+  geom_line(size = 0.5, linetype = 1) +
+  
+  # geom_label(aes(label = label_txt),
+  #         hjust = &quot;inward&quot;,
+  #           size  = 2) +
+  # 
+  #Formatting
+  expand_limits(y = 0.0) +
+  scale_x_date(breaks = &quot;1 month&quot;, date_labels = &quot;%B&quot;) +
+  # scale_x_continuous(breaks = cumulative_cases_tbl$month,
+  #                      labels = month(cumulative_cases_tbl$date, label = T)) +
+  scale_y_continuous(labels = scales::dollar_format(scale = 1/1e6,
+                                                    big.mark = &quot;.&quot;,
+                                                    decimal.mark = &quot;,&quot;,
+                                                    prefix = &quot;&quot;,
+                                                    suffix = &quot;M&quot;)) +
+  # breaks = seq(0, 000000, by =8)) +
+  labs(
+    title = &quot;COVID-19 confirmed cases worldwide&quot;,
+    subtitle = &quot;As of 11/02/2020, Europe had more cases than the USA&quot;,
+    x = &quot;Year 2020&quot;,
+    y = &quot;Cumulative Cases&quot;,
+    color = &quot;Country&quot;)  +  
+  theme_bw() +
+  theme(legend.position  = &quot;bottom&quot;, 
+        legend.direction = &quot;horizontal&quot;,
+        axis.text.x = element_text(angle = 45),
+        plot.title = element_text(face = &quot;bold&quot;)
+  )</code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>#ON TO THE NEXT ONE
+#Question 2
+
+# Goal 
+#Visualize the distribution of the mortality rate (deaths / population) with
+# geom_map().
+
+
+#Additional librarz
+library(maps)
+
+
+world &lt;- map_data(&quot;world&quot;)
+
+covid_mortality_rate_tbl  &lt;- covid_data_tbl %&gt;%
+  select(countriesAndTerritories, deaths, popData2019, continentExp) %&gt;%
+  group_by(countriesAndTerritories, popData2019)%&gt;%
+  summarise(sum_deaths_country = sum(deaths)) %&gt;%
+  mutate(mortality_rate = sum_deaths_country / popData2019) %&gt;%
+  ungroup() %&gt;%
+  
+  
+  
+  mutate(across(countriesAndTerritories, str_replace_all, &quot;_&quot;, &quot; &quot;)) %&gt;%
+  mutate(countriesAndTerritories = case_when(
+    
+    countriesAndTerritories == &quot;United Kingdom&quot; ~ &quot;UK&quot;,
+    countriesAndTerritories == &quot;United States of America&quot; ~ &quot;USA&quot;,
+    countriesAndTerritories == &quot;Czechia&quot; ~ &quot;Czech Republic&quot;,
+    TRUE ~ countriesAndTerritories
+    
+  ))
+
+
+Map_tbl &lt;- covid_mortality_rate_tbl %&gt;%
+  left_join(world, by = c( &quot;countriesAndTerritories&quot; = &quot;region&quot;)) %&gt;%
+  rename(region = countriesAndTerritories)
+
+
+#Data Visualization
+Map_tbl %&gt;%
+  ggplot() +
+  geom_map(aes(map_id = region, fill = mortality_rate ), map = world ) +
+  expand_limits(x= Map_tbl$long, y =Map_tbl$lat) +
+  scale_fill_gradient(low = &quot;#ee4540&quot;, high = &quot;#2d142c&quot;, labels = scales::percent) +
+  
+  labs(
+    title = &quot;Confirmed COVID-19 deaths relative to the size of the population&quot;,
+    subtitle = &quot;More than 1.2 Million confirmed COVID-19 deaths worldwide&quot;,
+    x = &quot; &quot;,
+    y = &quot; &quot;,
+    color = &quot;Mortality Rate&quot;)  +  
+  theme_dark() +
+  theme(legend.position  = &quot;right&quot;, 
+        legend.direction = &quot;vertical&quot;,
+        plot.title = element_text(face = &quot;bold&quot;),
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        axis.ticks = element_blank()
+  )</code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p>Last compiled: 2020-12-29</p>
+<p>I’m writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom</p>
+</div>
+<div id="adding-r-stuff" class="section level1">
+<h1><span class="header-section-number">5</span> Adding R stuff</h1>
+<p>So far this is just a blog where you can write in plain text and serve your writing to a webpage. One of the main purposes of this lab journal is to record your progress learning R. The reason I am asking you to use this process is because you can both make a website, and a lab journal, and learn R all in R-studio. This makes everything really convenient and in the same place.</p>
+<p>So, let’s say you are learning how to make a histogram in R. For example, maybe you want to sample 100 numbers from a normal distribution with mean = 0, and standard deviation = 1, and then you want to plot a histogram. You can do this right here by using an r code block, like this:</p>
+<pre class="r"><code>samples &lt;- rnorm(100, mean=0, sd=1)
+hist(samples)</code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag) from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You’ll learn that all of these things and more can be customized in each R code block.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
